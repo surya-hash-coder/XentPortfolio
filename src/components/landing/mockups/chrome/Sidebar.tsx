@@ -15,45 +15,23 @@ type Props = {
   onNavigate?: (key: string) => void;
 };
 
-const groups = [
+const items = [
   { label: "Dashboard", icon: LayoutDashboard, key: "dashboard" },
-  {
-    label: "Employee",
-    icon: Users,
-    key: "employees",
-    children: ["Employee Master", "Add Employee", "Employee Leave policy"],
-  },
-  {
-    label: "Register Attendance",
-    icon: CalendarCheck,
-    key: "attendance",
-    children: [
-      "Today Attendance",
-      "Monthly Attendance",
-      "Leave Request",
-      "Loss of pay",
-    ],
-  },
-  {
-    label: "Salary Attendance",
-    icon: Wallet,
-    key: "salary",
-    children: ["Monthly Salary"],
-  },
-  {
-    label: "Reports",
-    icon: BarChart3,
-    key: "reports",
-    children: ["ESI/PF Report"],
-  },
+  { label: "Employee", icon: Users, key: "employees" },
+  { label: "Register Attendance", icon: CalendarCheck, key: "attendance" },
+  { label: "Salary Attendance", icon: Wallet, key: "salary" },
+  { label: "Reports", icon: BarChart3, key: "reports" },
   { label: "Settings", icon: Settings, key: "settings" },
-  {
-    label: "Masters",
-    icon: Database,
-    key: "masters",
-    children: ["Designation", "company", "Bank", "Office Location"],
-  },
+  { label: "Masters", icon: Database, key: "masters" },
   { label: "User Management", icon: UserCog, key: "users" },
+];
+
+const clickableKeys = [
+  "dashboard",
+  "employees",
+  "attendance",
+  "salary",
+  "reports",
 ];
 
 export default function Sidebar({ active, onNavigate }: Props) {
@@ -83,61 +61,29 @@ export default function Sidebar({ active, onNavigate }: Props) {
         MENU
       </div>
 
-      <nav className="flex-1 px-2 pb-4 overflow-hidden">
-        {groups.map((g) => {
-          const Icon = g.icon;
-          const isActive = g.key === active;
-          const clickable = onNavigate && ["dashboard", "employees", "attendance", "salary", "reports"].includes(g.key);
+      <nav className="flex-1 px-2 pb-4">
+        {items.map((it) => {
+          const Icon = it.icon;
+          const isActive = it.key === active;
+          const clickable = onNavigate && clickableKeys.includes(it.key);
+
           return (
-            <div key={g.key} className="mb-0.5">
-              <button
-                type="button"
-                disabled={!clickable}
-                onClick={() => clickable && onNavigate?.(g.key)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-[12.5px] font-medium transition text-left ${
-                  isActive
-                    ? "bg-white/10 text-white"
-                    : clickable
-                    ? "text-white/70 hover:bg-white/5 hover:text-white cursor-pointer"
-                    : "text-white/40 cursor-default"
-                }`}
-              >
-                <Icon className="w-[15px] h-[15px]" />
-                <span className="flex-1 truncate">{g.label}</span>
-                {g.children && (
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-3 h-3 opacity-60"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2.5}
-                  >
-                    <path
-                      d="M9 6l6 6-6 6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </button>
-              {isActive && g.children && (
-                <div className="mt-0.5 mb-1.5 pl-2">
-                  {g.children.map((c, i) => (
-                    <div
-                      key={c}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-[11.5px] ${
-                        i === 0
-                          ? "text-white bg-white/5"
-                          : "text-white/55 hover:text-white/80"
-                      }`}
-                    >
-                      <span className="w-1 h-1 rounded-full bg-current opacity-60" />
-                      {c}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button
+              key={it.key}
+              type="button"
+              disabled={!clickable}
+              onClick={() => clickable && onNavigate?.(it.key)}
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-[12.5px] font-medium transition text-left mb-0.5 ${
+                isActive
+                  ? "bg-white/10 text-white"
+                  : clickable
+                  ? "text-white/70 hover:bg-white/5 hover:text-white cursor-pointer"
+                  : "text-white/40 cursor-default"
+              }`}
+            >
+              <Icon className="w-[15px] h-[15px]" />
+              <span className="flex-1 truncate">{it.label}</span>
+            </button>
           );
         })}
       </nav>
