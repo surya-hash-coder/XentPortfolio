@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --xent-primary: rgb(6, 86, 168);
+  --xent-primary-dark: rgb(4, 66, 128);
+  --xent-primary-light: rgb(46, 126, 208);
+  --xent-subtle: #eff6ff;
+  --xent-bg: #f5f7fa;
+  --xent-card: #ffffff;
+  --xent-ink: #1a1a2e;
+  --xent-ink-soft: #6c757d;
+  --xent-ink-muted: #64748b;
+  --xent-line: #e0e0e0;
+  --xent-navy: #1f2a44;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--xent-bg);
+  color: var(--xent-ink);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reveal-on-scroll base */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger utility — apply to children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger.is-visible > *:nth-child(2) { transition-delay: 60ms; }
+.stagger.is-visible > *:nth-child(3) { transition-delay: 120ms; }
+.stagger.is-visible > *:nth-child(4) { transition-delay: 180ms; }
+.stagger.is-visible > *:nth-child(5) { transition-delay: 240ms; }
+.stagger.is-visible > *:nth-child(6) { transition-delay: 300ms; }
+.stagger.is-visible > *:nth-child(7) { transition-delay: 360ms; }
+.stagger.is-visible > *:nth-child(8) { transition-delay: 420ms; }
+
+/* Custom scrollbar (subtle) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection */
+::selection {
+  background: rgba(6, 86, 168, 0.15);
+  color: var(--xent-ink);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
